@@ -84,65 +84,31 @@ Verify with `/mcp` inside a Claude Code session.
 
 The `target_dashboard` tool provides a SoftICE/IDA-style composite debug view: registers (with flag decode), disassembly around PC (with current instruction marker), stack dump, source context, optional data watch window, and backtrace -- all in one call. Supports `style="softice"` (dense, maximum info) or `style="ida"` (structured panels with clear separation).
 
-### Dashboard examples
+### Dashboard: SoftICE style
 
-**SoftICE style** (`style="softice"`) -- dense, maximum info per line:
+Dense, maximum info per line. Registers, disassembly with PC marker, source, stack, memory watch, backtrace -- all in one call.
 
-```
-─── registers ─────────────────────────────────────────────────────────────────────
- R0=00000000  R1=00000000  R2=00000000  R3=00000000  R4=00000000  R5=00000000
- R6=00000000  R7=2000FFE8  R8=00000000  R9=00000000  R10=00000000 R11=00000000
- R12=00000000 SP=2000FFE8  LR=000000A1  PC=00000016
- XPSR=41000000  MSP=2000FFE8  [ N Z C V Q T ]
-─── code ──────────────────────────────────────────────────────────────────────────
-    <configure_spi>:
-   00000010  push    {r7}
-   00000012  sub     sp, #12
-   00000014  add     r7, sp, #0
- > 00000016  ldr     r3, [pc, #64]   @ (0x58 <configure_spi+72>)  <<<
-   00000018  ldr     r3, [r3, #0]
-   0000001A  ldr     r2, [pc, #60]
-   0000001C  orr.w   r3, r3, #16
-─── source ────────────────────────────────────────────────────────────────────────
- 34    void configure_spi(void) {
- 35        /* Enable SSI0 clock */
- 36        SYSCTL_RCGC1 |= (1 << 4);
-─── stack [SP=2000FFE8] ───────────────────────────────────────────────────────────
- 0x2000ffe8  00 00 00 00 00 00 00 00 f8 ff 00 20   |........... |
-─── data [0x40008000] ─────────────────────────────────────────────────────────────
- 0x40008000  07 00 00 00 02 00 00 00 00 00 00 00   |............|
-─── backtrace ─────────────────────────────────────────────────────────────────────
- #0  configure_spi  test_spi.c:36  [0x00000016]
- #1  Reset_Handler  test_spi.c:72  [0x000000a0]
-────────────────────────────────────────────────────────────────────────────────────
-```
+![SoftICE dashboard](screenshots/dashboard-softice.png)
 
-**IDA style** (`style="ida"`) -- boxed panels:
+### Dashboard: IDA style
 
-```
-┌─ CPU Registers ──────────────────────────────────────────────────────────────────┐
-│ R0   00000000           R1   00000000           R2   00000000           R3   00000000
-│ R4   00000000           R5   00000000           R6   00000000           R7   2000FFE8
-│ R12  00000000           SP   2000FFE8           LR   000000A1           PC   00000016
-│──────────────────────────────────────────────────────────────────────────────────│
-│ XPSR     41000000  [Z T]
-│ MSP      2000FFE8
-├─ Disassembly ────────────────────────────────────────────────────────────────────┤
-│    <configure_spi>:
-│  > 00000016  ldr     r3, [pc, #64]   @ (0x58 <configure_spi+72>)  <<<
-│    00000018  ldr     r3, [r3, #0]
-├─ Source ─────────────────────────────────────────────────────────────────────────┤
-│ 34    void configure_spi(void) {
-│ 36        SYSCTL_RCGC1 |= (1 << 4);
-├─ Stack [SP=0x2000FFE8] ─────────────────────────────────────────────────────────┤
-│ 0x2000ffe8  00 00 00 00 00 00 00 00 f8 ff 00 20   |........... |
-├─ Backtrace ──────────────────────────────────────────────────────────────────────┤
-│  #0  configure_spi  test_spi.c:36  [0x00000016]
-│  #1  Reset_Handler  test_spi.c:72  [0x000000a0]
-└──────────────────────────────────────────────────────────────────────────────────┘
-```
+Boxed panels with structured layout, same information.
 
-All tool output includes ANSI 16-color for syntax highlighting: green register values, yellow function names, cyan addresses, bold white PC line, bold green/dim flags.
+![IDA dashboard](screenshots/dashboard-ida.png)
+
+### Registers, memory, expression evaluation
+
+![Registers and memory](screenshots/registers-memory.png)
+
+### Source context and symbol lookup
+
+![Source and symbols](screenshots/source-symbols.png)
+
+### Backtrace and fault analysis
+
+![Backtrace and fault analysis](screenshots/backtrace-fault.png)
+
+All tool output includes ANSI 16-color syntax highlighting: green register values, yellow function names, cyan addresses, bold white PC line, bold green/dim flags. Theme auto-detected from `~/.claude.json`.
 
 ## Safety tiers
 
