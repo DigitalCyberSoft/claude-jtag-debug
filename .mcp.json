@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "jtag-debug": {
+      "command": "python3",
+      "args": ["-m", "server"],
+      "cwd": "${CLAUDE_PLUGIN_ROOT}"
+    }
+  }
+}

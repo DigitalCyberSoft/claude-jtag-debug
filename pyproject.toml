@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-jtag-debug-server"
+version = "0.1.0"
+description = "JTAG/GDB debug MCP server with Saleae Logic 2 integration"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "fastmcp>=3.0.0",
+    "anyio>=4.0",
+]
+
+[project.optional-dependencies]
+saleae = ["logic2-automation>=1.0.0"]
+svd = ["cmsis-svd-data>=0.4"]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "pytest-timeout>=2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.setuptools.packages.find]
+include = ["server*"]

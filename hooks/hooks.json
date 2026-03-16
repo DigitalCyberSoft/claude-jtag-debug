@@ -1,0 +1,17 @@
+{
+  "description": "Safety gates for JTAG debug operations",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/safety_gate.py",
+            "timeout": 5
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
+  }
+}

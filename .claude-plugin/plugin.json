@@ -1,0 +1,8 @@
+{
+  "name": "claude-jtag-debug",
+  "description": "JTAG/GDB debugging of embedded targets with Saleae Logic 2 integration. Connects to debug probes, reads registers via SVD, analyzes faults, captures bus traffic, and diagnoses hardware issues.",
+  "version": "0.1.0",
+  "author": {
+    "name": "claude-jtag-debug contributors"
+  }
+}
